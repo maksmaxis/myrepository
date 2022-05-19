@@ -35,6 +35,9 @@ fi
 
 while true ## Print the choices
 do
+        echo -e "
+                                       ------------------------${LRED} END ${NORMAL}------------------------\n"
+
         echo -e "${LRED}Enter your choice [1-9]${NORMAL}:
 
 "
@@ -48,7 +51,8 @@ do
         echo "7. Change SELinux mode in conf file to disabled (/etc/selinux/config)"
         echo "8. Help"
         echo "9. Exit"  
-        echo -e "\n------------------------${LRED}Укажите цифру [1-9] и нажмите Ввод${NORMAL}-------------------------------\n"
+        echo -e "
+                                       ------------------------${LRED} START ${NORMAL}----------------------\n"
 
 read set 
 
@@ -147,6 +151,7 @@ ${BOLD}DESCRIPTION${NORMAL}
 
 
 ${BOLD}EXAMPLES${NORMAL}
+${BOLD}EXAMPLES${NORMAL}
         
 
 user@localhost direct]# ./read_selinux.sh 
@@ -198,3 +203,4 @@ exit 1 ## Выход из программы
 esac
         
 done
+
