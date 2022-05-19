@@ -10,7 +10,7 @@ BLUE='\033[34m'
 BOLD='\033[1m'
 HELP=$(echo -e "${BOLD}./selinux_status.sh${NORMAL}")
 
-# Check permission
+# Проверяет права на выполнение скрипта
 
 if [ "$PERM" = 0 ]; then
 
@@ -53,7 +53,7 @@ do
 read set 
 
 case $set in
- 1)
+ 1) # выводит значение команды 'getenforce'
         stat=$(getenforce)
                 echo -e  "\n----- Current status: ${LRED}$stat${NORMAL} -----\n"
                 echo -e "${YELLOW}
@@ -64,7 +64,7 @@ case $set in
 
 ;;
 
- 2)
+ 2) # выводит данные из конфигурационного файла '/etc/selinux/config' параметр SELINUX
         stat=$(cat /etc/selinux/config | grep -w "SELINUX" | grep -v "#" | awk 'BEGIN{FIELDWIDTHS="8 11"}{print $2}')
                 echo -e "\n----- SELinux status in the config file is: ${LRED}$stat${NORMAL} -----\n"
                 echo -e "${YELLOW}
@@ -74,7 +74,7 @@ case $set in
 "
 ;;
 
-3)
+3) # для изменения режима с enforcing на permissive, выполняет комманду 'setenforce 0'
         stat=$(setenforce 0)
                 $stat
                 GET=$(getenforce)
@@ -87,7 +87,7 @@ echo "
 "
 ;;
 
-4)
+4) # для изменения режима с permissive на enforcing, выполняет комманду 'setenforce 1'
         stat=$(setenforce 1)
         $stat
         GET=$(getenforce)
@@ -100,7 +100,7 @@ echo "
 "
 ;;
 
-5)
+5) # для смены режима SELinux в конф. файле, выполняет комманду sed -i с заменой текущего значения SELINUX={значение} на permissive
         sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config
         sed -i 's/SELINUX=disabled/SELINUX=permissive/' /etc/selinux/config
         stat=$(cat /etc/selinux/config | grep -w "SELINUX" | grep -v "#" | awk 'BEGIN{FIELDWIDTHS="8 11"}{print $2}')
@@ -108,21 +108,21 @@ echo "
 
 ;;
 
-6)
-        sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
-        sed -i 's/SELINUX=permissive/SELINUX=disabled/' /etc/selinux/config
-        stat=$(cat /etc/selinux/config | grep -w "SELINUX" | grep -v "#" | awk 'BEGIN{FIELDWIDTHS="8 11"}{print $2}')
-                echo -e "\n--- SELinux changed to: ${LRED}$stat${NORMAL}\n"
-;;
-
-7)
+6) # для смены режима SELinux в конф. файле, выполняет комманду sed -i с заменой текущего значения SELINUX={значение} на enforcing
         sed -i 's/SELINUX=disabled/SELINUX=enforcing/' /etc/selinux/config
         sed -i 's/SELINUX=permissive/SELINUX=enforcing/' /etc/selinux/config
         stat=$(cat /etc/selinux/config | grep -w "SELINUX" | grep -v "#" | awk 'BEGIN{FIELDWIDTHS="8 11"}{print $2}')
                 echo -e "\n--- SELinux changed to: ${LRED}$stat${NORMAL}\n"
 ;;
 
-8)
+7) # для смены режима SELinux в конф. файле, выполняет комманду sed -i с заменой текущего значения SELINUX={значение} на disabled
+        sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+        sed -i 's/SELINUX=permissive/SELINUX=disabled/' /etc/selinux/config
+        stat=$(cat /etc/selinux/config | grep -w "SELINUX" | grep -v "#" | awk 'BEGIN{FIELDWIDTHS="8 11"}{print $2}')
+                echo -e "\n--- SELinux changed to: ${LRED}$stat${NORMAL}\n"
+;;
+
+8) # Справочник
 
                 echo -e "
                                         ${LRED}------------------ Начало справочника -----------------${NORMAL}\n" 
